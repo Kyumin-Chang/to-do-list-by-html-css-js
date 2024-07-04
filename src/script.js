@@ -89,10 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveTasks() {
         const tasks = [];
         taskList.querySelectorAll('.task').forEach(task => {
-            tasks.push({ text: task.textContent, completed: false });
+            tasks.push({ text: task.querySelector('span').textContent, completed: false });
         });
         completedTaskList.querySelectorAll('.task').forEach(task => {
-            tasks.push({ text: task.textContent, completed: true });
+            tasks.push({ text: task.querySelector('span').textContent, completed: true });
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
@@ -100,22 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadTasks() {
         const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         tasks.forEach(task => {
+            const taskItem = document.createElement('li');
+            taskItem.className = 'task';
+            const taskContent = document.createElement('span');
+            taskContent.textContent = task.text;
+
             if (task.completed) {
-                const taskItem = document.createElement('li');
-                taskItem.className = 'task';
-                const taskContent = document.createElement('span');
-                taskContent.textContent = task.text;
+                taskItem.classList.add('completed');
                 taskItem.appendChild(taskContent);
                 completedTaskList.appendChild(taskItem);
             } else {
-                const taskItem = document.createElement('li');
-                taskItem.className = 'task';
-
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
-
-                const taskContent = document.createElement('span');
-                taskContent.textContent = task.text;
 
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = '삭제';
