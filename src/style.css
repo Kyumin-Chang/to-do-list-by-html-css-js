@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #9543ee, #4585f5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 35px;
+    color: #161414;
+}
+
+.date {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #2c2a2a;
+}
+
+hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+    width: 90%;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 90%;
+}
+
+#new-task {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+#add-task-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #23b645;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+#task-list {
+    list-style: none;
+    padding: 0;
+    max-height: 250px;
+    overflow-y: auto;
+    border-top: 1px solid #ddd;
+    width: 90%;
+}
+
+#completed-task-list {
+    list-style: none;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    width: 90%;
+}
+
+.hidden {
+    display: none;
+}
+
+.task {
+    background: #f9f9f9;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task span {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.task input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.task .delete-task-button {
+    background-color: #ddd;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#toggle-completed-tasks, #clear-tasks-button {
+    margin-top: 10px;
+    padding: 13px;
+    width: 50%;
+    border: none;
+    background-color: #1e83f0;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+#clear-tasks-button {
+    background-color: #dc3545;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #837f7f;
+}
