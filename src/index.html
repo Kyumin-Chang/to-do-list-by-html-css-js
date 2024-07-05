@@ -7,20 +7,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>To-Do List</h1>
-        <div class="date" id="date-display"></div>
+    <main class="container">
+        <header>
+            <h1>To-Do List</h1>
+            <time id="date-display" class="date"></time>
+        </header>
         <hr>
-        <div class="input-group">
-            <input type="text" id="new-task" placeholder="할 일을 추가해주세요">
-            <button id="add-task-button">+</button>
-        </div>
-        <div id="message" class="message"></div>
-        <ul id="task-list"></ul>
-        <button id="toggle-completed-tasks">완료한 할 일 보기</button>
-        <ul id="completed-task-list" class="hidden"></ul>
-        <button id="clear-tasks-button">모든 내역 삭제하기</button>
-    </div>
-    <script src="script.js"></script>
+        <section class="input-group">
+            <input type="text" id="new-task" placeholder="할 일을 추가해주세요" aria-label="할 일을 추가해주세요">
+            <button id="add-task-button" aria-label="Add new task">+</button>
+        </section>
+        <p id="message" class="message"></p>
+        <section>
+            <ul id="task-list"></ul>
+            <button id="toggle-completed-tasks" aria-label="Toggle completed tasks">완료한 할 일 보기</button>
+            <ul id="completed-task-list" class="hidden"></ul>
+            <button id="clear-tasks-button" aria-label="Clear all tasks">모든 내역 삭제하기</button>
+        </section>
+    </main>
+    <script src="script.js" type="module"></script>
 </body>
 </html>
