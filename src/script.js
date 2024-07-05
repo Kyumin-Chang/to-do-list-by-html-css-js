@@ -1,3 +1,5 @@
+import { addTask, addCompletedTask, saveTasks, loadTasks, clearTasks } from './taskFunctions.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const addTaskButton = document.getElementById('add-task-button');
     const newTaskInput = document.getElementById('new-task');
@@ -12,12 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const todayString = today.toLocaleDateString('ko-KR', options);
     dateDisplay.textContent = todayString;
 
-    loadTasks();
+    loadTasks(taskList, completedTaskList);
 
     addTaskButton.addEventListener('click', () => {
         const taskText = newTaskInput.value.trim();
         if (taskText) {
-            addTask(taskText);
+            addTask(taskText, taskList, () => saveTasks(taskList, completedTaskList));
             newTaskInput.value = '';
             message.textContent = '';
         } else {
@@ -26,14 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     taskList.addEventListener('click', (e) => {
-        if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
-            const taskItem = e.target.parentElement;
+        const taskItem = e.target.closest('.task');
+        if (!taskItem) return;
+
+        if (e.target.type === 'checkbox') {
             taskList.removeChild(taskItem);
-            addCompletedTask(taskItem);
+            addCompletedTask(taskItem, completedTaskList, () => saveTasks(taskList, completedTaskList));
         } else if (e.target.classList.contains('delete-task-button')) {
-            const taskItem = e.target.parentElement;
             taskList.removeChild(taskItem);
-            saveTasks();
+            saveTasks(taskList, completedTaskList);
         }
     });
 
@@ -50,85 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearTasksButton.addEventListener('click', () => {
         const confirmClear = confirm('기록되었던 모든 내역이 삭제됩니다. 삭제하시겠습니까?');
         if (confirmClear) {
-            clearTasks();
+            clearTasks(taskList, completedTaskList);
         }
     });
-
-    function addTask(taskText) {
-        const taskItem = document.createElement('li');
-        taskItem.className = 'task';
-
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-
-        const taskContent = document.createElement('span');
-        taskContent.textContent = taskText;
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = '삭제';
-        deleteButton.className = 'delete-task-button';
-
-        taskItem.appendChild(checkbox);
-        taskItem.appendChild(taskContent);
-        taskItem.appendChild(deleteButton);
-
-        taskList.appendChild(taskItem);
-
-        saveTasks();
-    }
-
-    function addCompletedTask(taskItem) {
-        taskItem.querySelector('input[type="checkbox"]').remove();
-        taskItem.querySelector('.delete-task-button').remove();
-        taskItem.classList.add('completed');
-        completedTaskList.appendChild(taskItem);
-
-        saveTasks();
-    }
-
-    function saveTasks() {
-        const tasks = [];
-        taskList.querySelectorAll('.task').forEach(task => {
-            tasks.push({ text: task.querySelector('span').textContent, completed: false });
-        });
-        completedTaskList.querySelectorAll('.task').forEach(task => {
-            tasks.push({ text: task.querySelector('span').textContent, completed: true });
-        });
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
-
-    function loadTasks() {
-        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.forEach(task => {
-            const taskItem = document.createElement('li');
-            taskItem.className = 'task';
-            const taskContent = document.createElement('span');
-            taskContent.textContent = task.text;
-
-            if (task.completed) {
-                taskItem.classList.add('completed');
-                taskItem.appendChild(taskContent);
-                completedTaskList.appendChild(taskItem);
-            } else {
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = '삭제';
-                deleteButton.className = 'delete-task-button';
-
-                taskItem.appendChild(checkbox);
-                taskItem.appendChild(taskContent);
-                taskItem.appendChild(deleteButton);
-
-                taskList.appendChild(taskItem);
-            }
-        });
-    }
-
-    function clearTasks() {
-        taskList.innerHTML = '';
-        completedTaskList.innerHTML = '';
-        localStorage.removeItem('tasks');
-    }
 });
